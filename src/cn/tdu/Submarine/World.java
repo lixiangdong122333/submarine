@@ -21,7 +21,6 @@ public class World {
         s.height=2;
         s.life=3;
         s.step();
-        System.out.println(s.width+","+s.height+","+s.life);
     }
 
 
