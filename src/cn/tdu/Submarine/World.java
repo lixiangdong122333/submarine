@@ -16,11 +16,17 @@ public class World {
     Bomb b2;
     //存放测试代码
     void action(){
-
+        s=new Battleship();
+        s.width=1;
+        s.height=2;
+        s.life=3;
+        s.step();
+        System.out.println(s.width+","+s.height+","+s.life);
     }
 
 
     public static void main(String[] args) {
-
+        World w=new World();
+        w.action();
     }
 }

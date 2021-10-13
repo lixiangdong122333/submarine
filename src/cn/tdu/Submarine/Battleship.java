@@ -13,4 +13,8 @@ public class Battleship {
     int speed;
     //命
     int life;
+
+    void step(){
+        System.out.println("战舰移动");
+    }
 }
