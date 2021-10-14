@@ -7,7 +7,11 @@ public class Torpedo {
     int y;
     int speed;
     /**构造方法*/
-    Torpedo(){
+    Torpedo(int x,int y){
+        width =5;
+        height=18;
+        this.x=x;
+        this.y=y;
 
     }
     void step(){
