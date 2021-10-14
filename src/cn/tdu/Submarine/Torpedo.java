@@ -12,7 +12,7 @@ public class Torpedo {
         height=18;
         this.x=x;
         this.y=y;
-
+        speed=1;
     }
     void step(){
         System.out.println("鱼雷移动");

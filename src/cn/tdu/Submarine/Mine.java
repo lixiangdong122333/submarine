@@ -7,8 +7,12 @@ public class Mine {
     int y;
     int speed;
     /**构造方法*/
-    Mine(){
-
+    Mine(int x,int y){
+        width=11;
+        height=11;
+        this.x=x;
+        this.y=y;
+        speed=1;
     }
     void step(){
         System.out.println("水雷移动");

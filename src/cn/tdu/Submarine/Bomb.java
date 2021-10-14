@@ -7,8 +7,12 @@ public class Bomb {
     int y;
     int speed;
     /**构造方法*/
-    Bomb(){
-
+    Bomb(int x,int y){//
+       width=9;
+        height=12;
+        this.x=x;
+        this.y=y;
+        speed=3;
     }
     void step(){
         System.out.println("深水炸弹移动");
