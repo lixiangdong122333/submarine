@@ -6,6 +6,10 @@ public class Bomb {
     int x;
     int y;
     int speed;
+    /**构造方法*/
+    Bomb(){
+
+    }
     void step(){
         System.out.println("深水炸弹移动");
     }

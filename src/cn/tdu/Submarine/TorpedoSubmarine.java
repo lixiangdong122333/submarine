@@ -6,6 +6,10 @@ public class TorpedoSubmarine {
     int x;
     int y;
     int speed;
+    /**构造方法*/
+    TorpedoSubmarine(){
+
+    }
     void step(){
         System.out.println("鱼雷潜艇移动");
     }
