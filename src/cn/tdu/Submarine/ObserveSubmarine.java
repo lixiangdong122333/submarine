@@ -15,7 +15,7 @@ public class ObserveSubmarine {
         width=63;
         height=19;
         x=-width;
-        y=random.nextInt(311)+150;
+        y=random.nextInt(479-height-150+1)+150;
     }
     void step(){
         System.out.println("侦察潜艇移动");
