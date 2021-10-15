@@ -8,7 +8,7 @@ public class Bomb {
     int speed;
     /**构造方法*/
     Bomb(int x,int y){//
-       width=9;
+        width=9;
         height=12;
         this.x=x;
         this.y=y;
