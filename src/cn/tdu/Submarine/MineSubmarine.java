@@ -3,12 +3,7 @@ package cn.tdu.Submarine;
 import java.util.Random;
 
 //水雷潜艇类
-public class MineSubmarine {
-    int width;
-    int height;
-    int x;
-    int y;
-    int speed;
+public class MineSubmarine extends SeaObject{
     /**构造方法*/
     MineSubmarine(){
         Random random=new Random();
@@ -19,8 +14,4 @@ public class MineSubmarine {
         speed=random.nextInt(3)+1;
 
     }
-    void step(){
-        System.out.println("水雷潜艇移动");
-    }
-
 }
