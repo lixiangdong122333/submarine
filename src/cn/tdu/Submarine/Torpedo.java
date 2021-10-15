@@ -3,10 +3,6 @@ package cn.tdu.Submarine;
 public class Torpedo extends SeaObject{
     /**构造方法*/
     Torpedo(int x,int y){
-        width =5;
-        height=18;
-        this.x=x;
-        this.y=y;
-        speed=1;
+        super(5,18,x,y,1);
     }
 }
