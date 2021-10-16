@@ -8,4 +8,8 @@ public class TorpedoSubmarine extends SeaObject{
     TorpedoSubmarine(){
         super(64,20);
     }
+    void step(){
+        //向右移动
+        x+=speed;
+    }
 }

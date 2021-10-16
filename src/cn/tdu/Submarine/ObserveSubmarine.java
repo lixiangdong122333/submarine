@@ -8,4 +8,10 @@ public class ObserveSubmarine extends SeaObject{
     ObserveSubmarine(){
         super(63,19);
     }
+
+    void step(){
+        //向右移动
+        x+=speed;
+    }
+
 }

@@ -8,4 +8,8 @@ public class MineSubmarine extends SeaObject{
     MineSubmarine(){
         super(63,19);
     }
+    void step(){
+        //向右移动
+        x+=speed;
+    }
 }
