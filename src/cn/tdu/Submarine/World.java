@@ -1,6 +1,9 @@
 package cn.tdu.Submarine;
+import javax.swing.JFrame;
+
+import javax.swing.JPanel;
 /*整个游戏世界*/
-public class World {
+public class World extends JPanel {
     //战舰
     Battleship ship=new Battleship();
     //潜艇数组
@@ -33,7 +36,15 @@ public class World {
 
 
     public static void main(String[] args) {
-        World w=new World();
-        w.action();
+        JFrame frame=new JFrame();
+        World world=new World();
+        world.setFocusable(true);
+        frame.add(world);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(641+16,479+39);
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
+
+        world.action();
     }
 }

@@ -5,4 +5,8 @@ public class Bomb extends SeaObject{
     Bomb(int x,int y){
         super(9,12,x,y,3);
     }
+    void step(){
+        //向下移动
+        y+=speed;
+    }
 }

@@ -6,4 +6,8 @@ public class Mine extends  SeaObject{
     Mine(int x,int y){
         super(11,11,x,y,1);
     }
+    void step(){
+        //向上移动
+        y-=speed;
+    }
 }

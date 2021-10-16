@@ -5,4 +5,8 @@ public class Torpedo extends SeaObject{
     Torpedo(int x,int y){
         super(5,18,x,y,1);
     }
+    void step(){
+        //向上移动
+        y-=speed;
+    }
 }
