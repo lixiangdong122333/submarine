@@ -2,8 +2,14 @@ package cn.tdu.Submarine;
 
 import java.util.Random;
 import javax.swing.ImageIcon;
+import java.awt.Graphics;
 /**海洋对象*/
 public abstract class SeaObject {
+    //声明两个常量用于表示生或死
+    public static final int LIVE=0;
+    public static final int DEAD=1;
+    //当前状态，默认初始为活着的
+    protected int state=LIVE;
     //宽
     protected int width;
     //高
@@ -20,7 +26,7 @@ public abstract class SeaObject {
         Random random=new Random();
         this.width=width;
         this.height=height;
-        x=-width;
+        x=width;
         y=random.nextInt(World.HEIGHT-height-150+1)+150;
         speed=random.nextInt(3)+1;
     }
@@ -33,8 +39,23 @@ public abstract class SeaObject {
         this.speed=speed;
     }
 
-    //战舰移动
+    //战舰移动的抽象方法
      public abstract void step();
-
+    //导入图片的抽象方法
     public abstract ImageIcon getImage();
+    //判断是否活着
+    public boolean isLive(){
+        return state==LIVE;
+    }
+    //判断是否死了
+    public boolean isDead(){
+        return state==DEAD;
+    }
+    //画图片
+    public void paintImage(Graphics g){
+        //如果活着
+        if (isLive()) {
+            getImage().paintIcon(null, g, x, y);
+        }
+    }
 }
