@@ -1,4 +1,7 @@
 package cn.tdu.Submarine;
+
+import javax.swing.*;
+
 //战舰类
 public class Battleship extends SeaObject{
     //命
@@ -9,5 +12,10 @@ public class Battleship extends SeaObject{
         life=5;
     }
     public void step(){
+    }
+
+    @Override
+    public ImageIcon getImage() {
+        return Images.battleship;
     }
 }

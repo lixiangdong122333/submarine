@@ -1,9 +1,9 @@
 package cn.tdu.Submarine;
 
 import java.util.Random;
-
+import javax.swing.ImageIcon;
 /**海洋对象*/
-public class SeaObject {
+public abstract class SeaObject {
     //宽
     protected int width;
     //高
@@ -21,7 +21,7 @@ public class SeaObject {
         this.width=width;
         this.height=height;
         x=-width;
-        y=random.nextInt(479-height-150+1)+150;
+        y=random.nextInt(World.HEIGHT-height-150+1)+150;
         speed=random.nextInt(3)+1;
     }
     //雷类使用的构造方法
@@ -34,7 +34,7 @@ public class SeaObject {
     }
 
     //战舰移动
-     public void step(){
-        System.out.println("海洋对象移动");
-    }
+     public abstract void step();
+
+    public abstract ImageIcon getImage();
 }

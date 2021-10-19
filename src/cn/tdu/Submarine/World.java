@@ -4,6 +4,8 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 /*整个游戏世界*/
 public class World extends JPanel {
+    public static final int WIDTH=641;
+    public static final int HEIGHT=479;
     //战舰
     Battleship ship=new Battleship();
     //潜艇数组
@@ -41,7 +43,7 @@ public class World extends JPanel {
         world.setFocusable(true);
         frame.add(world);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(641+16,479+39);
+        frame.setSize(WIDTH+16,HEIGHT+39);
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
 

@@ -1,4 +1,7 @@
 package cn.tdu.Submarine;
+
+import javax.swing.*;
+
 //水雷类
 public class Mine extends  SeaObject{
 
@@ -9,5 +12,10 @@ public class Mine extends  SeaObject{
     public void step(){
         //向上移动
         y-=speed;
+    }
+
+    @Override
+    public ImageIcon getImage() {
+        return Images.mine;
     }
 }

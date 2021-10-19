@@ -29,7 +29,7 @@ public class Images {
         System.out.println(torpesubm.getImageLoadStatus());
         System.out.println(minesubm.getImageLoadStatus());
         System.out.println(torpedo.getImageLoadStatus());
-        System.out.println(mine.getImageLoadStatus());;
+        System.out.println(mine.getImageLoadStatus());
         System.out.println(bomb.getImageLoadStatus());
     }
 }

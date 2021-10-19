@@ -1,4 +1,7 @@
 package cn.tdu.Submarine;
+
+import javax.swing.*;
+
 //深水炸弹类
 public class Bomb extends SeaObject{
     /**构造方法*/
@@ -8,5 +11,10 @@ public class Bomb extends SeaObject{
     public void step(){
         //向下移动
         y+=speed;
+    }
+
+    @Override
+    public ImageIcon getImage() {
+        return Images.bomb;
     }
 }
