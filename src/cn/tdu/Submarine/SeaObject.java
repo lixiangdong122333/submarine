@@ -26,7 +26,7 @@ public abstract class SeaObject {
         Random random=new Random();
         this.width=width;
         this.height=height;
-        x=width;
+        x=-width;
         y=random.nextInt(World.HEIGHT-height-150+1)+150;
         speed=random.nextInt(3)+1;
     }
@@ -56,6 +56,19 @@ public abstract class SeaObject {
         //如果活着
         if (isLive()) {
             getImage().paintIcon(null, g, x, y);
+        }
+    }
+    //生成雷对象
+    public SeaObject shootThunder(){
+        //根据潜艇原点的位置计算出雷的生成位置
+        int x=this.x+this.width;
+        int y=this.y-5;
+        if (this instanceof TorpedoSubmarine){
+            return new Torpedo(x,y);
+        }else if (this instanceof MineSubmarine){
+            return new Mine(x,y);
+        }else {
+            return null;
         }
     }
 }
