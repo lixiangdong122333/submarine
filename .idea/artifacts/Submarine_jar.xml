@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" build-on-make="true" name="Submarine:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/Submarine_jar</output-path>
+    <root id="archive" name="Submarine.jar">
+      <element id="module-output" name="Submarine" />
+    </root>
+  </artifact>
+</component>
