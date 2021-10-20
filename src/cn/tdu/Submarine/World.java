@@ -20,7 +20,7 @@ public class World extends JPanel {
     private SeaObject[] thunders={};
     //炸弹数组
     private Bomb[] bombs={};
-    //生成潜艇对象
+    /**返回一个潜艇类型*/
     public SeaObject nextSubmarine(){
         //实例化随机数
         Random random=new Random();
@@ -76,6 +76,7 @@ public class World extends JPanel {
     void action() {
         Timer timer=new Timer();
         int interval=10;
+        //创建TimerTask的匿名内部类
         timer.schedule(new TimerTask() {
             /** 重写run方法， */
             public void run() {//定时干的事
