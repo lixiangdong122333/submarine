@@ -58,7 +58,7 @@ public abstract class SeaObject {
             getImage().paintIcon(null, g, x, y);
         }
     }
-    //生成雷对象
+    //生成并返回雷对象
     public SeaObject shootThunder(){
         //根据潜艇原点的位置计算出雷的生成位置
         int x=this.x+this.width;
