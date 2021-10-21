@@ -23,7 +23,7 @@ public class World extends JPanel {
     private SeaObject[] thunders={};
     //炸弹数组
     private Bomb[] bombs={};
-    /**返回一个潜艇类型*/
+    /**随机返回一个潜艇类型*/
     public SeaObject nextSubmarine(){
         //实例化随机数
         Random random=new Random();
