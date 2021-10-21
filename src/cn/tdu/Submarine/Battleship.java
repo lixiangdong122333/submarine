@@ -18,4 +18,14 @@ public class Battleship extends SeaObject{
     public ImageIcon getImage() {
         return Images.battleship;
     }
+    /**生成深水炸弹*/
+    public Bomb shoot(){
+        return new Bomb(this.x,this.y);
+    }
+    public void moveLeft(){
+        x-=speed;
+    }
+    public void moveRight(){
+        x+=speed;
+    }
 }

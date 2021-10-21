@@ -18,4 +18,8 @@ public class Mine extends  SeaObject{
     public ImageIcon getImage() {
         return Images.mine;
     }
+    /**重写isOutOfBounds  检查水雷越界*/
+    public boolean isOutOfBounds(){
+        return this.y<=150-this.height;
+    }
 }

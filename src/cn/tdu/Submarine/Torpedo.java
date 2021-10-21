@@ -17,4 +17,8 @@ public class Torpedo extends SeaObject{
     public ImageIcon getImage() {
         return Images.torpedo;
     }
+    /**重写isOutOfBounds  检查鱼雷越界*/
+    public boolean isOutOfBounds(){
+        return this.y<=0-this.height;
+    }
 }

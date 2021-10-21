@@ -71,4 +71,9 @@ public abstract class SeaObject {
             return null;
         }
     }
+    /**潜艇越界检查*/
+    public boolean isOutOfBounds(){
+        return this.x>=World.WIDTH;
+    }
+
 }

@@ -2,11 +2,14 @@ package cn.tdu.Submarine;
 import javax.swing.JFrame;
 import java.awt.Graphics;
 import javax.swing.JPanel;
+import java.awt.event.KeyAdapter;
 import java.lang.reflect.Array;
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.Arrays;
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
 /*整个游戏世界*/
 public class World extends JPanel {
     public static final int WIDTH=641;
@@ -72,10 +75,60 @@ public class World extends JPanel {
             bombs[i].step();
         }
     }
+    /**删越界*/
+    public void outOfBoundsAction(){
+        //遍历并删除越界潜艇
+        for (int i=0;i<submariner.length;i++){
+            if (submariner[i].isOutOfBounds()){
+                submariner[i]=submariner[submariner.length-1];
+                submariner=Arrays.copyOf(submariner,submariner.length-1);
+            }
+        }
+        //遍历并删除越界雷
+        for (int i=0;i<thunders.length;i++){
+            if (thunders[i].isOutOfBounds()){
+                thunders[i]=thunders[thunders.length-1];
+                thunders=Arrays.copyOf(thunders,thunders.length-1);
+            }
+        }
+        //遍历并删除越界炸弹
+        for (int i=0;i<bombs.length;i++){
+            if (bombs[i].isOutOfBounds()){
+                bombs[i]=bombs[bombs.length-1];
+                bombs=Arrays.copyOf(bombs,bombs.length-1);
+            }
+        }
+    }
     /** 程序的执行 */
     void action() {
+        /**按空格触发扔炸弹*/
+        KeyAdapter k=new KeyAdapter() {
+            public void keyPressed(KeyEvent e) {
+                //若按下空格执行
+                if (e.getKeyCode()==KeyEvent.VK_SPACE){
+                    Bomb obj =ship.shoot();
+                    bombs=Arrays.copyOf(bombs,bombs.length+1);
+                    bombs[bombs.length-1]=obj;
+                }
+                //按下左键执行
+                if (e.getKeyCode()==KeyEvent.VK_LEFT){
+                    if (ship.x>0) {
+                        ship.moveLeft();
+                    }
+                }
+                //按下右键执行
+                if (e.getKeyCode()==KeyEvent.VK_RIGHT){
+                    if (ship.x<WIDTH-ship.width) {
+                        ship.moveRight();
+                    }
+                }
+            }
+        };
+        this.addKeyListener(k);
+
         Timer timer=new Timer();
         int interval=10;
+
         //创建TimerTask的匿名内部类
         timer.schedule(new TimerTask() {
             /** 重写run方法， */
@@ -83,11 +136,13 @@ public class World extends JPanel {
                 submarinerEnterAction();//潜艇入场
                 thunderEnterAction();//雷入场
                 steoAction();//海洋对象移动
+                outOfBoundsAction();
 
                 repaint();//重画(重新调用paint()方法)
             }
         }, interval, interval);
     }
+
     /** 重写paint()画  g:画笔 */
     public void paint (Graphics g){
         Images.sea.paintIcon(null,g,0,0);

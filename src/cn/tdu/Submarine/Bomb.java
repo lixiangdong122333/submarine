@@ -17,4 +17,8 @@ public class Bomb extends SeaObject{
     public ImageIcon getImage() {
         return Images.bomb;
     }
+    /**重写isOutOfBounds  检查炸弹越界*/
+    public boolean isOutOfBounds(){
+        return this.y>=World.HEIGHT;
+    }
 }
