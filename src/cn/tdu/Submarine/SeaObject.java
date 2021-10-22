@@ -75,5 +75,19 @@ public abstract class SeaObject {
     public boolean isOutOfBounds(){
         return this.x>=World.WIDTH;
     }
+    /**检测碰撞*/
+    public boolean isHit(SeaObject other){
+        int x1=this.x-other.width;
+        int x2=this.x+this.width;
+        int y1=this.y-other.height;
+        int y2=this.y+this.height;
+        int x=other.x;
+        int y=other.y;
+        return x>=x1&&x<=x2&&y>=y1&&y<=y2;
+    }
+    /**更改存活状态*/
+    public void goDead(){
+        state=DEAD;
+    }
 
 }

@@ -3,18 +3,18 @@ import javax.swing.JFrame;
 import java.awt.Graphics;
 import javax.swing.JPanel;
 import java.awt.event.KeyAdapter;
-import java.lang.reflect.Array;
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.Arrays;
-import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
+import java.util.concurrent.TimeUnit;
+
 /*整个游戏世界*/
 public class World extends JPanel {
     public static final int WIDTH=641;
     public static final int HEIGHT=479;
-
+    private boolean stop=false;
     //战舰
     private Battleship ship=new Battleship();
     //潜艇数组
@@ -79,29 +79,52 @@ public class World extends JPanel {
     public void outOfBoundsAction(){
         //遍历并删除越界潜艇
         for (int i=0;i<submariner.length;i++){
-            if (submariner[i].isOutOfBounds()){
+            if (submariner[i].isOutOfBounds()||submariner[i].isDead()){
                 submariner[i]=submariner[submariner.length-1];
                 submariner=Arrays.copyOf(submariner,submariner.length-1);
             }
         }
         //遍历并删除越界雷
         for (int i=0;i<thunders.length;i++){
-            if (thunders[i].isOutOfBounds()){
+            if (thunders[i].isOutOfBounds()||thunders[i].isDead()){
                 thunders[i]=thunders[thunders.length-1];
                 thunders=Arrays.copyOf(thunders,thunders.length-1);
             }
         }
         //遍历并删除越界炸弹
         for (int i=0;i<bombs.length;i++){
-            if (bombs[i].isOutOfBounds()){
+            if (bombs[i].isOutOfBounds()||bombs[i].isDead()){
                 bombs[i]=bombs[bombs.length-1];
                 bombs=Arrays.copyOf(bombs,bombs.length-1);
             }
         }
     }
+    private int score=0;//玩家得分
+    /**深水炸弹与潜艇碰撞*/
+    public void bombBangAction(){
+        for (int i=0;i<bombs.length;i++) {
+            Bomb b=bombs[i];
+            for (int j=0;j<submariner.length;j++) {
+                SeaObject s=submariner[j];
+                if (b.isLive()&&s.isLive()&&s.isHit(b)){
+                    b.goDead();
+                    s.goDead();
+                    if(s instanceof EnemyScore){
+                        EnemyScore es= (EnemyScore) s;
+                        score+=es.getScore();
+                    }
+                    if (s instanceof EnemyAaward){
+                        EnemyAaward ea= (EnemyAaward) s;
+                        int num=ea.getLife();
+                        ship.addLife(num);
+                    }
+                }
+            }
+        }
+    }
     /** 程序的执行 */
     void action() {
-        /**按空格触发扔炸弹*/
+        //按空格触发扔炸弹
         KeyAdapter k=new KeyAdapter() {
             public void keyPressed(KeyEvent e) {
                 //若按下空格执行
@@ -122,6 +145,10 @@ public class World extends JPanel {
                         ship.moveRight();
                     }
                 }
+                //esc暂停
+                if(e.getKeyCode()==KeyEvent.VK_ESCAPE){
+                    stop=!stop;
+                }
             }
         };
         this.addKeyListener(k);
@@ -133,11 +160,15 @@ public class World extends JPanel {
         timer.schedule(new TimerTask() {
             /** 重写run方法， */
             public void run() {//定时干的事
+                //暂停
+                if (stop) {
+                    timer.cancel();
+                }
                 submarinerEnterAction();//潜艇入场
                 thunderEnterAction();//雷入场
                 steoAction();//海洋对象移动
                 outOfBoundsAction();
-
+                bombBangAction();//深水炸弹与潜艇碰撞
                 repaint();//重画(重新调用paint()方法)
             }
         }, interval, interval);
@@ -156,6 +187,8 @@ public class World extends JPanel {
         for (int i=0;i<bombs.length;i++){
             bombs[i].paintImage(g);
         }
+        g.drawString("SCORE  "+score,200,50);
+        g.drawString("LIFT  "+ship.gitLift(),400,50);
     }
     public static void main(String[] args) {
         JFrame frame=new JFrame();

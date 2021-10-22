@@ -28,4 +28,10 @@ public class Battleship extends SeaObject{
     public void moveRight(){
         x+=speed;
     }
+    public void addLife(int num){
+        life+=num;
+    }
+    public int gitLift(){
+        return life;
+    }
 }
