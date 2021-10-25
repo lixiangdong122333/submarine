@@ -9,9 +9,13 @@ public class Images {
     public static ImageIcon torpedo;    //鱼雷
     public static ImageIcon mine;       //水雷
     public static ImageIcon bomb;       //炸弹
+    public static ImageIcon start;
+    public static ImageIcon gameover;
 
     //静态块，初始化静态资源
     static {
+        start=new ImageIcon("img/start.png");
+        gameover=new ImageIcon("img/gameover.png");
         sea=new ImageIcon("img/sea.png");
         battleship=new ImageIcon("img/battleship.png");
         obsersubm=new ImageIcon("img/obsersubm.png");

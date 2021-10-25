@@ -14,7 +14,10 @@ import java.util.concurrent.TimeUnit;
 public class World extends JPanel {
     public static final int WIDTH=641;
     public static final int HEIGHT=479;
-    private boolean stop=false;
+    public static final int START=0;
+    public static final int RUNNING=1;
+    public static final int GAME_OVER=2;
+    private int state=START;
     //战舰
     private Battleship ship=new Battleship();
     //潜艇数组
@@ -42,7 +45,7 @@ public class World extends JPanel {
     public void submarinerEnterAction(){//每十毫秒走一次，需要控制频率
         subEnterIndex++;
         //控制频率
-        if (subEnterIndex%40==0){
+        if (subEnterIndex%60==0){
             SeaObject obj=nextSubmarine();
             //数组扩容并把随机的潜艇对象赋给最后一位
             submariner=Arrays.copyOf(submariner,submariner.length+1);
@@ -82,6 +85,7 @@ public class World extends JPanel {
             if (submariner[i].isOutOfBounds()||submariner[i].isDead()){
                 submariner[i]=submariner[submariner.length-1];
                 submariner=Arrays.copyOf(submariner,submariner.length-1);
+                System.gc();
             }
         }
         //遍历并删除越界雷
@@ -89,6 +93,7 @@ public class World extends JPanel {
             if (thunders[i].isOutOfBounds()||thunders[i].isDead()){
                 thunders[i]=thunders[thunders.length-1];
                 thunders=Arrays.copyOf(thunders,thunders.length-1);
+                System.gc();
             }
         }
         //遍历并删除越界炸弹
@@ -96,6 +101,7 @@ public class World extends JPanel {
             if (bombs[i].isOutOfBounds()||bombs[i].isDead()){
                 bombs[i]=bombs[bombs.length-1];
                 bombs=Arrays.copyOf(bombs,bombs.length-1);
+                System.gc();
             }
         }
     }
@@ -122,6 +128,20 @@ public class World extends JPanel {
             }
         }
     }
+    public void thunderBangAction(){
+        for (int i=0;i<thunders.length;i++){
+            SeaObject t=thunders[i];
+            if (t.isLive()&&ship.isLive()&&ship.isHit(t)){
+                t.goDead();
+                ship.subtractLife();
+            }
+        }
+    }
+    public void checkGameoverAction(){
+        if (ship.gitLift()<=0){
+            state=GAME_OVER;
+        }
+    }
     /** 程序的执行 */
     void action() {
         //按空格触发扔炸弹
@@ -129,9 +149,27 @@ public class World extends JPanel {
             public void keyPressed(KeyEvent e) {
                 //若按下空格执行
                 if (e.getKeyCode()==KeyEvent.VK_SPACE){
-                    Bomb obj =ship.shoot();
-                    bombs=Arrays.copyOf(bombs,bombs.length+1);
-                    bombs[bombs.length-1]=obj;
+                    switch (state){
+                        case START:
+                            state=RUNNING;
+                            break;
+                        case RUNNING:
+                            Bomb obj =ship.shoot();
+                            bombs=Arrays.copyOf(bombs,bombs.length+1);
+                            bombs[bombs.length-1]=obj;
+                            break;
+                        case GAME_OVER:
+                            //打扫战场
+                            score=0;
+                            ship=new Battleship();
+                            submariner=new SeaObject[0];
+                            thunders=new SeaObject[0];
+                            bombs=new Bomb[0];
+                            //状态重置
+                            state=START;
+                    }
+
+
                 }
                 //按下左键执行
                 if (e.getKeyCode()==KeyEvent.VK_LEFT){
@@ -145,10 +183,6 @@ public class World extends JPanel {
                         ship.moveRight();
                     }
                 }
-                //esc暂停
-                if(e.getKeyCode()==KeyEvent.VK_ESCAPE){
-                    stop=!stop;
-                }
             }
         };
         this.addKeyListener(k);
@@ -160,15 +194,16 @@ public class World extends JPanel {
         timer.schedule(new TimerTask() {
             /** 重写run方法， */
             public void run() {//定时干的事
-                //暂停
-                if (stop) {
-                    timer.cancel();
+                if (state==RUNNING){
+
+                    submarinerEnterAction();//潜艇入场
+                    thunderEnterAction();//雷入场
+                    steoAction();//海洋对象移动
+                    outOfBoundsAction();
+                    bombBangAction();//深水炸弹与潜艇碰撞
+                    thunderBangAction();//雷与战舰碰撞
+                    checkGameoverAction();//检测游戏结束
                 }
-                submarinerEnterAction();//潜艇入场
-                thunderEnterAction();//雷入场
-                steoAction();//海洋对象移动
-                outOfBoundsAction();
-                bombBangAction();//深水炸弹与潜艇碰撞
                 repaint();//重画(重新调用paint()方法)
             }
         }, interval, interval);
@@ -176,19 +211,29 @@ public class World extends JPanel {
 
     /** 重写paint()画  g:画笔 */
     public void paint (Graphics g){
-        Images.sea.paintIcon(null,g,0,0);
-        ship.paintImage(g);
-        for (int i=0;i<submariner.length;i++){
-            submariner[i].paintImage(g);
+        switch (state){
+            case START:
+                Images.start.paintIcon(null,g,0,0);
+                break;
+            case GAME_OVER:
+                Images.gameover.paintIcon(null,g,0,0);
+                break;
+            case RUNNING:
+                Images.sea.paintIcon(null,g,0,0);
+                ship.paintImage(g);
+                for (int i=0;i<submariner.length;i++){
+                    submariner[i].paintImage(g);
+                }
+                for (int i=0;i<thunders.length;i++){
+                    thunders[i].paintImage(g);
+                }
+                for (int i=0;i<bombs.length;i++){
+                    bombs[i].paintImage(g);
+                }
+                g.drawString("SCORE  "+score,200,50);
+                g.drawString("LIFT  "+ship.gitLift(),400,50);
+                break;
         }
-        for (int i=0;i<thunders.length;i++){
-            thunders[i].paintImage(g);
-        }
-        for (int i=0;i<bombs.length;i++){
-            bombs[i].paintImage(g);
-        }
-        g.drawString("SCORE  "+score,200,50);
-        g.drawString("LIFT  "+ship.gitLift(),400,50);
     }
     public static void main(String[] args) {
         JFrame frame=new JFrame();
